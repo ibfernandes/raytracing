@@ -33,6 +33,12 @@ public:
 	inline bool operator== (const Vec3<T> &v1) {
 		return (this->x == v1.x && this->y == v1.y && this->z == v1.z) ? true : false;
 	};
+	inline Vec3<T> operator+= (const Vec3<T> &v1) {
+		this->x += v1.x;
+		this->y += v1.y;
+		this->z += v1.z;
+		return *this;
+	};
 
 	inline operator Vec3<int>() {
 		return Vec3<int>((int) x, (int)y, (int)z);
