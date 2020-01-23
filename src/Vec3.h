@@ -12,6 +12,9 @@ public:
 	inline Vec3<T> operator+ (const Vec3<T> &v1) {
 		return Vec3<T>(v1.x + this->x, v1.y + this->y, v1.z + this->z);
 	};
+	inline Vec3<T> operator+ (const T &v) {
+		return Vec3<T>(v + this->x, v + this->y, v + this->z);
+	};
 	inline Vec3<T> operator- (const Vec3<T> &v1) {
 		return Vec3<T>(this->x - v1.x, this->y - v1.y, this->z - v1.z);
 	};

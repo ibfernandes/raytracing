@@ -1,62 +1,58 @@
 #include <iostream>
 #include <fstream>
 #include "Vec3.h"
+#include "Model.h"
+#include "Sphere.h"
 #include "Ray.h"
 #include <assert.h>
-
-void assertOperators() {
-	Vec3<float> v1(1, 2, 3);
-	Vec3<float> v2(4, 5, -6);
-	Vec3<float> result;
-
-	result = v1 + v2;
-	result.print();
-	assert(result == Vec3<float>(5, 7, -3));
-
-	result = v1 - v2;
-	result.print();
-	assert(result == Vec3<float>(-3, -3, 9));
-
-	result = v1 * v2;
-	result.print();
-	assert(result == Vec3<float>(4, 10, -18));
-
-	result = v1 * 2;
-	result.print();
-	assert(result == Vec3<float>(2, 4, 6));
-
-	result = 2 * v1;
-	result.print();
-	assert(result == Vec3<float>(2, 4, 6));
-
-	result = v1/v2;
-	result.print();
-	assert(result == Vec3<float>(1.0f/4.0f, 2.0f/5.0f, 3.0/-6.0f));
-
-	v1 = Vec3<float>(0,1,0);
-	v2 = Vec3<float>(1, 0, 0);
-
-	assert(v1.dot(v2) == 0);
-	assert(v1.cross(v2) == Vec3<float>(0,0,-1));
-}
+#include <Vector>
+#include <limits>
 
 Vec3<float> blend(Vec3<float> v1, Vec3<float> v2, float t) {
 	return (1.0f - t) * v1 + t * v2;
 }
 
+std::vector<Model*> models;
+
+bool checkHits(Ray &r, float tMin, float tMax, Hit &hit) {
+	
+	Hit tempHit;
+	bool hitAnything = false;
+	float closestHit = tMax;
+	
+	for (Model *m : models) {
+		if (m->hit(r, tMin, closestHit, tempHit)) {
+			hitAnything = true;
+			closestHit = tempHit.t;
+			hit = tempHit;
+		}
+	}
+
+	return hitAnything;
+}
+
 Vec3<int> calculateColor(Ray r) {
+	Hit hit;
+	if(checkHits(r, 0, std::numeric_limits<float>::max(), hit)){
+		return 255.0f * ( (hit.normal + 1) * 0.5f );
+	}
+
 	Vec3<float> dir = r.direction.normalize();
 	float t = 0.5f * (dir.y + 1.0);
 	return 255.0f * blend(Vec3<float>(1.0f, 1.0f, 1.0f), Vec3<float>(0.5f, 0.7f, 1.0f), t);
 }
 
 int main() {
-	assertOperators();
-	const int windowWidth = 800, windowHeight = 600;
+	const int windowWidth = 200, windowHeight = 100;
 	Vec3<float> lowerLeft(-2, -1, -1);
 	Vec3<float> horizontal(4, 0, 0);
 	Vec3<float> vertical(0, 2, 0);
 	Vec3<float> origin(0, 0, 0);
+
+	Sphere s1(Vec3<float>(0, 0, -1.0f), 0.5f);
+	Sphere s2(Vec3<float>(0, -100.5f, -1), 100.0f);
+	models.push_back(&s1);
+	models.push_back(&s2);
 
 	std::ofstream file;
 	file.open("output.ppm");
