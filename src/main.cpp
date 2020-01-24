@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "Math.h"
 #include "DiffuseMaterial.h"
+#include "DielectricMaterial.h"
 #include "MetalMaterial.h"
 #include <assert.h>
 #include <Vector>
@@ -58,12 +59,10 @@ int main() {
 	const int windowWidth = 200, windowHeight = 100;
 	const int spp = 100;
 	Camera cam;
-
 	
-	Sphere s1(Vec3<float>(0, 0, -1.0f), 0.5f, new DiffuseMaterial(Vec3<float>(1.0, 0.1, 0.1)));
-	Sphere s2(Vec3<float>(0, -100.5f, -1), 100.0f, new MetalMaterial(Vec3<float>(0.8, 0.8, 0.8)));
-	models.push_back(&s1);
-	models.push_back(&s2);
+	models.push_back(&Sphere(Vec3<float>(0, 0, -1.0f), 0.5f, new DiffuseMaterial(Vec3<float>(1.0, 0.1, 0.1))));
+	models.push_back(&Sphere(Vec3<float>(1.0f, 0, -1.0f), 0.5f, new DielectricMaterial(1.5f)));
+	models.push_back(&Sphere(Vec3<float>(0, -100.5f, -1), 100.0f, new MetalMaterial(Vec3<float>(0.8, 0.8, 0.8))));
 
 	std::ofstream file;
 	file.open("output.ppm");

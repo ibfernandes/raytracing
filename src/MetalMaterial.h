@@ -10,10 +10,6 @@ public:
 		this->albedo = albedo;
 	};
 
-	Vec3<float> reflect(Vec3<float> &v, Vec3<float> &n) {
-		return v - (2.0f * v.dot(n) * n);
-	}
-
 	/*
 		NOTE: we could just as well only scatter with some probability p and have attenuation be albedo/p.
 	*/
