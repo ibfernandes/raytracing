@@ -1,15 +1,23 @@
 #pragma once
 #include "Model.h"
 #include "Vec3.h"
+#include "Material.h"
 
 class Sphere : public Model {
 public:
 	Vec3<float> center;
 	float radius;
+	Material *material;
 
 	Sphere(Vec3<float> center, float radius) {
 		this->center = center;
 		this->radius = radius;
+	};
+
+	Sphere(Vec3<float> center, float radius, Material *material) {
+		this->center = center;
+		this->radius = radius;
+		this->material = material;
 	};
 
 	/*
@@ -28,6 +36,7 @@ public:
 				hit.t = temp;
 				hit.p = r.getPointAt(hit.t);
 				hit.normal = ((hit.p - center) / radius).normalize();
+				hit.material = material;
 				return true;
 			}
 
@@ -36,6 +45,7 @@ public:
 				hit.t = temp;
 				hit.p = r.getPointAt(hit.t);
 				hit.normal = ((hit.p - center) / radius).normalize();
+				hit.material = material;
 				return true;
 			}
 		}

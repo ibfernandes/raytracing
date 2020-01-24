@@ -6,6 +6,8 @@ public:
 	union { Vec3<float> o, origin;  };
 	union { Vec3<float> d, direction;  };
 
+	Ray() {};
+
 	Vec3<float> getPointAt(float t) {
 		return o + t * d;
 	}
