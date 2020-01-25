@@ -1,6 +1,7 @@
 #pragma once
 #include <cstddef>
 #include <iostream>
+#include <math.h>
 
 template<typename T>
 class Vec3 {
@@ -8,8 +9,6 @@ public:
 	union { T x, r;  };
 	union { T y, g;  };
 	union { T z, b;  };
-
-
 
 	inline Vec3<T> operator+ (const Vec3<T> &v1) {
 		return Vec3<T>(v1.x + this->x, v1.y + this->y, v1.z + this->z);
@@ -64,9 +63,19 @@ public:
 		return sqrt(dot(*this));
 	}
 
+	inline float squaredLength() {
+		return dot(*this);
+	}
+
 	inline Vec3<float> normalize() {
 		return Vec3<float>(x,y,z) / this->length();
 	}
+
+	inline Vec3<T>(T x) {
+		this->x = x;
+		this->y = x;
+		this->z = x;
+	};
 
 	inline Vec3<T>(T x, T y, T z) {
 		this->x = x;
@@ -84,5 +93,6 @@ public:
 
 template<typename T, typename J>
 inline Vec3<T> operator* (const J &v, const Vec3<T> &v1) {
-	return Vec3<T>(v1.x * v, v1.y * v, v1.z * v);
+	return Vec3<T>(v * v1.x, v * v1.y, v * v1.z);
 };
+
