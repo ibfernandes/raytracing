@@ -60,25 +60,22 @@ int main() {
 	const int spp = 100;
 	Vec3<float> lookFrom(0, 1, 1.5f);
 	Vec3<float> lookAt(0, 0, -1);
-	Camera cam(lookFrom, lookAt, Vec3<float>(0, 1, 0), 90.0f, float(windowWidth) / float(windowHeight), 2.0f, (lookFrom - lookAt).length());
+	Camera cam(lookFrom, lookAt, Vec3<float>(0, 1, 0), 90.0f, float(windowWidth) / float(windowHeight), 0.01f, (lookFrom - lookAt).length());
 	
 	models.push_back(&Sphere(Vec3<float>(0, 0, -1.0f), 0.5f, new DiffuseMaterial(Vec3<float>(1.0, 0.1, 0.1))));
 	models.push_back(&Sphere(Vec3<float>(1.0f, 0, -1.0f), 0.5f, new DielectricMaterial(1.5f)));
 	//models.push_back(&Sphere(Vec3<float>(0, -100.5f, -1), 100.0f, new MetalMaterial(Vec3<float>(0.8, 0.8, 0.8))));
 	models.push_back(&Sphere(Vec3<float>(0, -100.5f, -1), 100.0f, new DiffuseMaterial(Vec3<float>(0.5, 0.5, 0.5))));
+	for (int x = 0; x < 10; x++) {
+		Vec3<float> center( (2 * random()-1) * 3, 0.0f, -3.0f * random());
+		float materialChance = random();
 
-	for (int x = 0; x < 5; x++) {
-		for (int z = 0; z < 5; z++) {
-			Vec3<float> center((random()*2 -1) * 5, 0.2, -random() * 5);
-			float materialChance = random();
-
-			if (materialChance < 0.8)
-				models.push_back(&Sphere(center, random() * 0.5f, new DiffuseMaterial(Vec3<float>(random()*random(), random()*random(), random()*random()))));
-			else if (materialChance < 0.95)
-				models.push_back(&Sphere(center, random() * 0.5f, new MetalMaterial(Vec3<float>(0.5 * (1 + random()), 0.5 * (1 + random()), 0.5 * (1 + random())))));
-			else
-				models.push_back(&Sphere(center, random() * 0.5f, new DielectricMaterial(1.5f)));
-		}
+		if (materialChance < 0.8)
+			models.push_back(&*(new Sphere(center, 0.35f * random(), new DiffuseMaterial(Vec3<float>(random()*random(), random()*random(), random()*random())))));
+		else if (materialChance < 0.95)
+			models.push_back(&*(new Sphere(center, 0.35f * random(), new MetalMaterial(Vec3<float>(0.5 * (1 + random()), 0.5 * (1 + random()), 0.5 * (1 + random()))))));
+		else
+			models.push_back(&*(new Sphere(center, 0.35f * random(), new DielectricMaterial(1.5f))));
 	}
 
 	Vec3<float> vec;

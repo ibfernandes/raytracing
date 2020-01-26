@@ -32,14 +32,14 @@ public:
 		vertical = 2.0f * focusDistance * halfHeight * r;
 	}
 	
-	Ray getRayPassingThrough(float u, float v) {
+	/*Ray getRayPassingThrough(float u, float v) {
 		return Ray(origin, lowerLeft + u * horizontal + v * vertical - origin);
-	}
+	}*/
 	
-	/*Ray getRayPassingThrough(float s, float t) {
+	Ray getRayPassingThrough(float s, float t) {
 		Vec3<float> rd = lensRadius * randomInUnitDisk();
 		Vec3<float> offset = u * rd.x + r * rd.y;
 		return Ray(origin + offset, lowerLeft + s * horizontal + t * vertical - origin - offset);
-	}*/
+	}
 };
 
