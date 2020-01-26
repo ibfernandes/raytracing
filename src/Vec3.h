@@ -48,6 +48,14 @@ public:
 		return Vec3<int>((int) x, (int)y, (int)z);
 	};
 
+	inline Vec3<float> floatmod(float v) {
+		return Vec3<int>(fmod(x, v), fmod(y, v), fmod(z, v));
+	};
+
+	inline Vec3<int> intmod(int v) {
+		return Vec3<int>(x % v, y % v, z % v);
+	};
+
 	/*
 		Returns the dot product between two vectors. Remember to normalize them!
 	*/

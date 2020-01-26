@@ -1,8 +1,9 @@
 #pragma once
 #include "Vec3.h"
 #define PI 3.14159265358979323846264338327950288
+#include <limits>
 
-Vec3<float> seed(0, 0, 0);
+Vec3<int> seed(0, 0, 0);
 
 /*
 	Receives an angle in degrees and returns its conversion to radians.
@@ -19,9 +20,10 @@ float fraction(float f) {
 /*
 	Returns a random number between [0, 1)
 */
-//NOTE: Missing mod.
 float random() {
-	seed = seed + Vec3<float>(1, 1, 1);
+	seed = seed + 1;
+	seed = seed.intmod(3578967);
+
 	return fraction(sin(seed.dot(Vec3<float>(12.9898, 4.1414, 0))) * 43758.5453) * 0.5f + 0.5f;
 }
 
